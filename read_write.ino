@@ -25,3 +25,39 @@ bool Read(String fileName , String& fileData) {
   file_to_Read.close();
   return true;
 }
+
+void fileCount() {
+  File root = SPIFFS.open("/");
+  File file = root.openNextFile();
+  int count = 0;
+  while (file) {
+    count++;
+    file = root.openNextFile();
+  }
+  Serial.print("total files : ");
+  Serial.println(count);
+}
+
+void listAllFiles() {
+  File root = SPIFFS.open("/");
+  File file = root.openNextFile();
+  uint8_t count = 0;
+  while (file) {
+    Serial.print("FILE: ");
+    Serial.println(file.name());
+    file = root.openNextFile();
+    count++;
+  }
+  Serial.print("total files : ");
+  Serial.println(count);
+}
+void format() {
+  Serial.println("\n\n---BEFORE FORMATTING---");
+  listAllFiles();
+  SPIFFS.format();
+  Serial.println("\n\n---AFTER FORMATTING---");
+  listAllFiles();
+}
+
+
+
